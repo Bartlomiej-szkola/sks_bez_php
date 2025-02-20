@@ -17,11 +17,73 @@
     Imię: <input type="text" name="imie"><br>
 	Nazwisko: <input type="text" name="nazwisko"><br>
 	Klasa: <input type="text" name="klasa"><br>
-    <input type="submit" value="zapisz" >
+    <input type="submit" value="zapisz" name="submitDodaj">
 </form>
 
 
 <?php
+
+	$conn = mysqli_connect("localhost", "root", "", "sks");
+
+	
+	
+	if (!$conn) {
+		die("Connection failed: " . mysqli_connect_error());
+	}
+	echo "Connected successfully";
+
+	
+
+	if(isset($_POST['submitDodaj'])){
+		$imie = $_POST['imie'];
+		$nazwisko = $_POST['nazwisko'];
+		$klasa = $_POST['klasa'];
+
+		$q_dodaj = "INSERT INTO zawodnicy (imie, nazwisko, klasa)
+			VALUES ('$imie', '$nazwisko', '$klasa')";
+		
+		if (mysqli_query($conn, $q_dodaj)) {
+			echo "Dodano rekord";
+		} else {
+			echo "Error: " . $q_dodaj . "<br>" . mysqli_error($conn);
+		}
+	}
+
+
+	$q_wypisywanie = "SELECT * FROM zawodnicy";
+	$result = mysqli_query($conn, $q_wypisywanie);
+
+	if (mysqli_num_rows($result) > 0) {
+	// output data of each row
+	while($row = mysqli_fetch_assoc($result)) {
+		
+		echo <<< END
+			<tr>
+				<th>ID</th>
+				<th>Imię</th>
+				<th>Nazwisko</th>
+				<th>Klasa</th>
+				<th>Data urodzenia</th>
+				<th>Wzrost</th>
+    		</tr>
+			<!--
+			<tr>
+				<td> $row['id'] </td>
+				<td> $row['imie'] </td>;
+ 				<td> $row['nazwisko'] </td>;
+				<td> $row['klasa'] </td>;
+				<td>" $row['dataurodzenia'] </td>;
+				<td> $row['wzrost'] </td>;
+			</tr> -->
+	END;
+
+	}
+	} else {
+		echo "<tr><td colspan='6'>Brak zapisanych zawodników</td>"
+	}
+
+	mysqli_close($conn);
+	
 /*obsługa bazy przy pomocy zapytań strukturalnych, 
 dokumentacje do tego sposobu znajdziecie w dokumentacji 
 do egzaminu - na końcu, np: https://arkusze.pl/zawodowy/inf03-2022-styczen-egzamin-zawodowy-praktyczny.pdf , 
