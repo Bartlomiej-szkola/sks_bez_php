@@ -1,5 +1,11 @@
 <html>
 <head>
+	<style>
+		.buttonUsun{
+			color: white;
+			background-color: red;
+		}
+	</style>
 </head>
 <body>
 
@@ -50,39 +56,20 @@
 	}
 
 
-	$q_wypisywanie = "SELECT * FROM zawodnicy";
-	$result = mysqli_query($conn, $q_wypisywanie);
+	if(isset($_POST['submitUsun'])){
+		$id = $_POST['submitUsun'];
 
-	if (mysqli_num_rows($result) > 0) {
-	// output data of each row
-	while($row = mysqli_fetch_assoc($result)) {
+		$q_usun = "DELETE FROM zawodnicy WHERE id=$id";
 		
-		echo <<< END
-			<tr>
-				<th>ID</th>
-				<th>Imię</th>
-				<th>Nazwisko</th>
-				<th>Klasa</th>
-				<th>Data urodzenia</th>
-				<th>Wzrost</th>
-    		</tr>
-			<!--
-			<tr>
-				<td> $row['id'] </td>
-				<td> $row['imie'] </td>;
- 				<td> $row['nazwisko'] </td>;
-				<td> $row['klasa'] </td>;
-				<td>" $row['dataurodzenia'] </td>;
-				<td> $row['wzrost'] </td>;
-			</tr> -->
-	END;
-
-	}
-	} else {
-		echo "<tr><td colspan='6'>Brak zapisanych zawodników</td>"
+		if (mysqli_query($conn, $q_usun)) {
+			echo "<h3 class='komunikat'>Usunięto rekord</h3>";
+		} else {
+			echo "Error: " . $q_dodaj . "<br>" . mysqli_error($conn);
+		}
 	}
 
-	mysqli_close($conn);
+	// $q_edytowanie = "UPDATE zawodnicy SET imie=$_POST['wpisane_imie'],nazwisko==$_POST['wpisane_nazwisko'],klasa=$_POST['wpisana_klasa'],rokurodzenia=$_POST['wpisany_rokurodzenia'],wzrost=$_POST['wpisany_wzrost'] WHERE id=$_POST['wpisane_id']";
+	
 	
 /*obsługa bazy przy pomocy zapytań strukturalnych, 
 dokumentacje do tego sposobu znajdziecie w dokumentacji 
@@ -109,6 +96,56 @@ SELECT https://www.w3schools.com/php/php_mysql_select.asp
 <ol>
 <?php
 	//wypisanie aktualnie zapisanych użytkowników z opcją edytowania
+	$q_wypisywanie = "SELECT * FROM zawodnicy";
+
+	$result = mysqli_query($conn, $q_wypisywanie);
+
+	if (mysqli_num_rows($result) > 0) {
+
+		echo <<< END
+		<table>
+		<tr>
+			<th>ID</th>
+			<th>Imię</th>
+			<th>Nazwisko</th>
+			<th>Klasa</th>
+			<th>Data urodzenia</th>
+			<th>Wzrost</th>
+			<th>TEMPBUTTON</th>
+		</tr>
+		END;
+		
+
+		while($row = mysqli_fetch_assoc($result)) {
+			
+			echo <<< END
+			
+			<tr>
+				<td>{$row['id']}</td>
+				<td>{$row['imie']}</td>
+				<td>{$row['nazwisko']}</td>
+				<td>{$row['klasa']}</td>
+				<td>{$row['rokurodzenia']}</td>
+				<td>{$row['wzrost']}</td>
+				<td>
+					<button onclick='edytuj({$row['id']})' class='buttonEdytuj'>✏</button>
+					<form action="insertsks_del.php" method="post">
+						<button type='submit' value='{$row['id']}' class='buttonUsun' name='submitUsun'>🗑</button>
+					</form>
+				</td>
+			</tr>
+		
+		
+			END;
+	
+
+		}
+		echo "</table>";
+
+	} else {
+		echo "<tr><td colspan='6'>Brak zapisanych zawodników</td>";
+	}
+	mysqli_close($conn);
 ?>
 </ol>
 
