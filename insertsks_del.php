@@ -5,6 +5,14 @@
 			color: white;
 			background-color: red;
 		}
+		table {
+			border: 1px solid black;
+		}
+		#divEdytuj{
+			position: fixed;
+			top:50%;
+			left: 50%;
+		}
 	</style>
 </head>
 <body>
@@ -25,6 +33,10 @@
 	Klasa: <input type="text" name="klasa"><br>
     <input type="submit" value="zapisz" name="submitDodaj">
 </form>
+
+<div id="divEdytuj">
+	<form></form>
+</div>
 
 
 <?php
@@ -49,12 +61,25 @@
 			VALUES ('$imie', '$nazwisko', '$klasa')";
 		
 		if (mysqli_query($conn, $q_dodaj)) {
-			echo "Dodano rekord";
+			echo "<h3 class='komunikat'>Dodano rekord</h3>";
 		} else {
 			echo "Error: " . $q_dodaj . "<br>" . mysqli_error($conn);
 		}
 	}
 
+
+
+	// if(isset($_POST['submitEdytuj'])){
+
+
+	// 	$q_edytuj = "UPDATE zawodnicy SET imie=$_POST['wpisane_imie'],nazwisko=$_POST['wpisane_nazwisko'],klasa=$_POST['wpisana_klasa'],rokurodzenia=$_POST['wpisany_rokurodzenia'],wzrost=$_POST['wpisany_wzrost'] WHERE id=$_POST['wpisane_id']";
+		
+	// 	if (mysqli_query($conn, $q_edytuj)) {
+	// 		echo "<h3 class='komunikat'>Zedytowano rekord</h3>";
+	// 	} else {
+	// 		echo "Error: " . $q_edytuj . "<br>" . mysqli_error($conn);
+	// 	}
+	// }
 
 	if(isset($_POST['submitUsun'])){
 		$id = $_POST['submitUsun'];
@@ -111,7 +136,7 @@ SELECT https://www.w3schools.com/php/php_mysql_select.asp
 			<th>Klasa</th>
 			<th>Data urodzenia</th>
 			<th>Wzrost</th>
-			<th>TEMPBUTTON</th>
+			<th colspan=2 width=150px>TEMPBUTTON</th>
 		</tr>
 		END;
 		
@@ -129,6 +154,9 @@ SELECT https://www.w3schools.com/php/php_mysql_select.asp
 				<td>{$row['wzrost']}</td>
 				<td>
 					<button onclick='edytuj({$row['id']})' class='buttonEdytuj'>✏</button>
+				</td>
+				<td>
+
 					<form action="insertsks_del.php" method="post">
 						<button type='submit' value='{$row['id']}' class='buttonUsun' name='submitUsun'>🗑</button>
 					</form>
