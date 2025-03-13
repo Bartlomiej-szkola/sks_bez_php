@@ -27,7 +27,7 @@
 <p>Dokumentacja funkcji z biblioteki mysqli, która jest dołączona do kadego egzaminu INF.03</p>
  <img width="500px" src="mysqli.png"></img>
 
-<form action="insertsks_del.php" method="post" >
+<form action="insertsks_del.php" method="post" id=dodaj>
 
 <h3>Dopisz zawodnika</h3>
     Imię: <input type="text" name="imie"><br>
@@ -39,7 +39,7 @@
 </form>
 
 <div id="divEdytuj">
-	<form action="insertsks_del.php" method="post" >
+	<form action="insertsks_del.php" method="post" id=edytuj>
 		<h3>Edytuj zawodnika</h3>
 		<input type="number" name="idE" id='idE' hidden><br> <!-- Trzeba potem ukryc -->
 		Imię: <input type="text" name="imieE"><br>
@@ -67,8 +67,16 @@
 }
 
 
-</script>
+    window.onload = function() {
+        document.getElementById("dodaj").reset(); // Zresetuj formularz
+    }
 
+
+
+</script>
+<script>
+        if (window.history.replaceState) window.history.replaceState(null, null, window.location.href);
+</script>
 
 <?php
 
@@ -95,6 +103,8 @@
 		
 		if (mysqli_query($conn, $q_dodaj)) {
 			echo "<h3 class='komunikat'>Dodano rekord</h3>";
+			header("Location: " . $_SERVER['PHP_SELF']);
+        exit();
 		} else {
 			echo "Error: " . $q_dodaj . "<br>" . mysqli_error($conn);
 		}
