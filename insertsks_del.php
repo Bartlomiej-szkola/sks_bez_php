@@ -41,18 +41,18 @@
 <div id="divEdytuj">
 	<form action="insertsks_del.php" method="post" id=edytuj>
 		<h3>Edytuj zawodnika</h3>
-		<input type="number" name="idE" id='idE' hidden><br> <!-- Trzeba potem ukryc -->
+		<input type="number" name="idE" id='idE' hidden><br>
 		Imię: <input type="text" name="imieE"><br>
 		Nazwisko: <input type="text" name="nazwiskoE"><br>
 		Klasa: <input type="text" name="klasaE"><br>
-		Rok urodzenia: <input type="text" name="rokurodzeniaE"><br> <!-- Added field -->
-        Wzrost: <input type="text" name="wzrostE"><br> <!-- Added field -->
+		Rok urodzenia: <input type="text" name="rokurodzeniaE"><br>
+        Wzrost: <input type="text" name="wzrostE"><br> 
 		<input type="submit" value="zapisz" name="submitEdytuj">
 
 
 	</form>
 </div>
-<!--  Ten skrypt trzeba gdzieś prZenieść -->
+
 <script>
 	const divEdytuj = document.getElementById('divEdytuj')
 
@@ -61,14 +61,14 @@
     document.getElementsByName('imieE')[0].value = imie;
     document.getElementsByName('nazwiskoE')[0].value = nazwisko;
     document.getElementsByName('klasaE')[0].value = klasa;
-    document.getElementsByName('rokurodzeniaE')[0].value = rokurodzenia; // Set the year of birth
-    document.getElementsByName('wzrostE')[0].value = wzrost; // Set the height
+    document.getElementsByName('rokurodzeniaE')[0].value = rokurodzenia; 
+    document.getElementsByName('wzrostE')[0].value = wzrost; 
     divEdytuj.style.display = 'block';
 }
 
 
     window.onload = function() {
-        document.getElementById("dodaj").reset(); // Zresetuj formularz
+        document.getElementById("dodaj").reset(); 
     }
 
 
@@ -174,7 +174,7 @@ SELECT https://www.w3schools.com/php/php_mysql_select.asp
 <h3>Aktualnie zapisani zawodnicy</h3>
 <ol>
 <?php
-	//wypisanie aktualnie zapisanych użytkowników z opcją edytowania
+
 	$q_wypisywanie = "SELECT * FROM zawodnicy";
 
 	$result = mysqli_query($conn, $q_wypisywanie);
